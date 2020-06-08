@@ -14,7 +14,6 @@ class TrashtechApp:
   def __init__(self):
     self.trashtech_client = TrashtechApi()
     self.s3_client = S3Client()
-    self.configuration = self.trashtech_client.configuration()
     self.snapper = Snapper()
     self.snapper.set_resolution(640, 480)
     self.gsm_controller = GsmController()
@@ -36,6 +35,9 @@ if __name__ == '__main__':
   trashtech_app = TrashtechApp()
   trashtech_app.init_gsm()
   time.sleep(5)
+
+  configuration = trashtech_app.trashtech_client.configuration()
+
   trashtech_app.call_snap()
   time.sleep(10)
   complete_file_path = 'TT_test.jpg'
