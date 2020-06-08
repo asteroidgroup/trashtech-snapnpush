@@ -15,6 +15,7 @@ class TrashtechApp:
     self.trashtech_client = TrashtechApi()
     self.configuration = self.trashtech_client.configuration()
     self.snapper = Snapper()
+    self.snapper.set_resolution(640, 480)
     self.gsm_controller = GsmController()
 
   def reload_configuration(self):
