@@ -8,7 +8,7 @@ class Snapper:
     self.height = height or 480
 
   def snap(self, file_path):
-    self.call(self.snap_command(self, file_path))
+    self.call(self.snap_command(file_path))
 
   def snap_command(self, file_path):
     "raspistill -w %s -h %s -o %s" % (self.width, self.height, file_path)

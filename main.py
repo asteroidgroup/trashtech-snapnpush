@@ -33,5 +33,5 @@ class TrashtechApp:
 if __name__ == '__main__':
   trashtech_app = TrashtechApp()
   trashtech_app.init_gsm()
-  time.sleep(10)
+  time.sleep(5)
   trashtech_app.call_snap()
