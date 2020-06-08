@@ -19,15 +19,15 @@ class TrashtechApi:
 
     return json
 
-  def create_status(device_reference):
+  def create_status(device_reference, e_tag):
     request_json = {
       "device_status": {
-        "image_name": "",
+        "image_name": e_tag,
         "image_created_at": "",
-        "image_e_tag": "",
+        "image_e_tag": e_tag,
         "image_size": "",
-        "device_reference": "",
-        "container_identifier_number": "000001",
+        "device_reference": device_reference,
+        "container_identifier_number": device_reference,
       }
     }
     logging.info("[INFO] request json: %s", request_json)

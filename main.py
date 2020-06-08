@@ -13,6 +13,7 @@ logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 class TrashtechApp:
   def __init__(self):
     self.trashtech_client = TrashtechApi()
+    self.s3_client = S3Client()
     self.configuration = self.trashtech_client.configuration()
     self.snapper = Snapper()
     self.snapper.set_resolution(640, 480)
@@ -36,3 +37,10 @@ if __name__ == '__main__':
   trashtech_app.init_gsm()
   time.sleep(5)
   trashtech_app.call_snap()
+  time.sleep(10)
+  complete_file_path = 'TT_test.jpg'
+  response = trashtech_app.s3_client.upload(complete_file_path)
+
+
+  device_reference = '000001'
+  trashtech_app.trashtech_client.create_status(device_reference, response.e_tag)
