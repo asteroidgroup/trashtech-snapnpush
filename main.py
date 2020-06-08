@@ -1,24 +1,32 @@
 import os
-import boto3
+import threading
+import time
+import logging
 
-AWS_ACCESS_KEY_ID = "AKIAJGG5DJ3XAM2NESYQ"
-AWS_SECRET_ACCESS_KEY = "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"
-AWS_BUCKET_NAME = "trashtech-images-1"
+from snap import Snapper
+from s3_client import S3Client
+from trashtech_api import TrashtechApi
 
-session = boto3.Session(aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
-def upload_file_to_s3(complete_file_path):
-  if complete_file_path is None:
-    raise ValueError("Please enter a valid and complete file path")
+class TrashtechApp:
+  def __init__(self):
+    self.trashtech_client = TrashtechApi()
+    self.configuration = self.trashtech_client.configuration()
+    self.snapper = Snapper()
 
-  session = boto3.Session(
-    aws_access_key_id=AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-  )
-  s3 = session.resource('s3')
-  data = open(os.path.normpath(complete_file_path), 'rb')
-  file_basename = os.path.basename(complete_file_path)
-  s3.Bucket(AWS_BUCKET_NAME).put_object(Key=file_basename, Body=data)
+  def reload_configuration(self):
+    self.configuration = self.trashtech_client.configuration()
+
+  def interval(self):
+    self.configuration()['interval']
+
+  def call_snap(self):
+    file_path = "TT_%s.jpg" % ('test')
+    self.snapper.snap(file_path)
+
+  def take_action(self):
+    self.call_snap()
 
 if __name__ == '__main__':
-  upload_file_to_s3('tmp/supercat.png')
+  trashtech_app = TrashtechApp()

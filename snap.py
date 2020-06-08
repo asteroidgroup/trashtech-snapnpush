@@ -4,8 +4,8 @@ import os
 
 class Snapper:
   def set_resolution(self, width, height):
-    self.width = width
-    self.height = height
+    self.width = width || 640
+    self.height = height || 480
 
   def snap(self, file_path):
     self.call(snap_command(self, file_path))
