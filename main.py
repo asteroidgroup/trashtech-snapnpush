@@ -28,7 +28,7 @@ class TrashtechApp:
     self.snapper.snap(file_path)
 
   def init_gsm(self):
-    self.enable()
+    self.gsm_controller.enable()
 
 if __name__ == '__main__':
   trashtech_app = TrashtechApp()
