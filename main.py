@@ -42,5 +42,5 @@ if __name__ == '__main__':
   response = trashtech_app.s3_client.upload(complete_file_path)
 
 
-  device_reference = '000001'
+  device_reference = '000006'
   trashtech_app.trashtech_client.create_status(device_reference, response.e_tag)
