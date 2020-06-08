@@ -45,4 +45,4 @@ if __name__ == '__main__':
 
 
   device_reference = '000006'
-  trashtech_app.trashtech_client.create_status(device_reference, response.e_tag)
+  trashtech_app.trashtech_client.create_status(device_reference, response.e_tag, complete_file_path)
