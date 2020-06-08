@@ -12,7 +12,7 @@ class Snapper:
     self.call(self.snap_command(file_path))
 
   def snap_command(self, file_path):
-    "raspistill -w %s -h %s -o %s" % (self.width, self.height, file_path)
+    return "raspistill -w %s -h %s -o %s" % (self.width, self.height, file_path)
 
   def call(self, command):
     logging.info('[INFO] System command call: %s' % command)
