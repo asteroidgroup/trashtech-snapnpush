@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import logging
 
 class Snapper:
   def set_resolution(self, width, height):
