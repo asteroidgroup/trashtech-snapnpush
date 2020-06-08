@@ -3,12 +3,17 @@
 import os
 
 class Snapper:
-  def __init__(self, width, height):
+  def set_resolution(self, width, height):
     self.width = width
     self.height = height
 
   def snap(self, file_path):
-    os.system(snap_command(self, file_path))
+    self.call(snap_command(self, file_path))
 
   def snap_command(self, file_path):
     "raspistill -w %s -h %s -o %s" % (self.width, self.height, file_path)
+
+  def call(self, command):
+    logging.info('[INFO] System command call: %s' % command)
+    os.system(command)
+    logging.info('[INFO] System command call done: %s' % command)
