@@ -30,3 +30,4 @@ class TrashtechApp:
 
 if __name__ == '__main__':
   trashtech_app = TrashtechApp()
+  trashtech_app.call_snap()
