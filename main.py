@@ -2,6 +2,7 @@ import os
 import threading
 import time
 import logging
+import time
 
 from snap import Snapper
 from s3_client import S3Client
@@ -24,9 +25,8 @@ class TrashtechApp:
   def interval(self):
     self.configuration()['interval']
 
-  def call_snap(self):
-    file_path = "TT_%s.jpg" % ('test')
-    self.snapper.snap(file_path)
+  def call_snap(self, filename):
+    self.snapper.snap(filename)
 
   def init_gsm(self):
     self.gsm_controller.enable()
@@ -39,11 +39,13 @@ if __name__ == '__main__':
 
   configuration = trashtech_app.trashtech_client.configuration()
 
-  trashtech_app.call_snap()
-  time.sleep(10)
-  complete_file_path = 'TT_test.jpg'
-  response = trashtech_app.s3_client.upload(complete_file_path)
+  current_timestamp = str(time.time())
+  complete_file_path = 'TT_%s.jpg' % current_timestamp
 
+  trashtech_app.call_snap(complete_file_path)
+  time.sleep(10)
+
+  response = trashtech_app.s3_client.upload(complete_file_path)
 
   device_reference = '000006'
   trashtech_app.trashtech_client.create_status(device_reference, response.e_tag, complete_file_path)
