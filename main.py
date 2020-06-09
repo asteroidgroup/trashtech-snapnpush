@@ -39,7 +39,7 @@ class TrashtechApp:
 
     configuration = self.trashtech_client.configuration()
 
-    image_created_at_timestamp = str(time.time())
+    image_created_at_timestamp = time.time()
     complete_file_path = 'TT_%s.jpg' % image_created_at_timestamp
 
     self.call_snap(complete_file_path)
