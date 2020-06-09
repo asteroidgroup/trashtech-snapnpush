@@ -43,7 +43,7 @@ class TrashtechApp:
     complete_file_path = 'TT_%s.jpg' % image_created_at_timestamp
 
     self.call_snap(complete_file_path)
-    time.sleep(10)
+    time.sleep(5)
 
     response = self.s3_client.upload(complete_file_path)
 
@@ -52,7 +52,7 @@ class TrashtechApp:
     self.trashtech_client.create_status(device_reference, response.e_tag, complete_file_path, image_created_at)
 
     thread = threading.Timer(configuration['photo_interval'], trashtech_app.run)
-    t1.start()
+    thread.start()
 
 if __name__ == '__main__':
   trashtech_app = TrashtechApp()
