@@ -39,8 +39,8 @@ if __name__ == '__main__':
 
   configuration = trashtech_app.trashtech_client.configuration()
 
-  current_timestamp = str(time.time())
-  complete_file_path = 'TT_%s.jpg' % current_timestamp
+  image_created_at_timestamp = str(time.time())
+  complete_file_path = 'TT_%s.jpg' % image_created_at_timestamp
 
   trashtech_app.call_snap(complete_file_path)
   time.sleep(10)
@@ -48,4 +48,5 @@ if __name__ == '__main__':
   response = trashtech_app.s3_client.upload(complete_file_path)
 
   device_reference = '000006'
+  image_created_at = datetime.datetime.fromtimestamp(image_created_at_timestamp).strftime('%Y-%m-%d %H:%M:%S')
   trashtech_app.trashtech_client.create_status(device_reference, response.e_tag, complete_file_path)

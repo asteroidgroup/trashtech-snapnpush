@@ -19,11 +19,11 @@ class TrashtechApi:
 
     return json
 
-  def create_status(self, device_reference, e_tag, image_name):
+  def create_status(self, device_reference, e_tag, image_name, image_created_at):
     request_json = {
       "device_status": {
         "image_name": image_name,
-        "image_created_at": "",
+        "image_created_at": image_created_at,
         "image_e_tag": e_tag,
         "image_size": "",
         "device_reference": device_reference,
