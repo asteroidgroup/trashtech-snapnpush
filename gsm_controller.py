@@ -31,7 +31,7 @@ class GsmController:
     logging.info('[INFO] System command call done: %s' % command)
 
   def is_ppp_interface_present(self):
-    exists = false
+    exists = False
     for name, interface in ifcfg.interfaces().items():
       if interface['device'] == 'ppp0':
         exists = true
