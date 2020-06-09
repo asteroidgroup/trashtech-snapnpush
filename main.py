@@ -32,7 +32,7 @@ class TrashtechApp:
     self.gsm_controller.enable()
 
   def run(self):
-    if self.gsm_controller.is_ppp_interface_present():
+    if self.gsm_controller.is_ppp_interface_present() is not True:
       self.init_gsm()
       time.sleep(5)
 
