@@ -37,19 +37,19 @@ class TrashtechApp:
       self.init_gsm()
       time.sleep(5)
 
-  configuration = self.trashtech_client.configuration()
+    configuration = self.trashtech_client.configuration()
 
-  image_created_at_timestamp = str(time.time())
-  complete_file_path = 'TT_%s.jpg' % image_created_at_timestamp
+    image_created_at_timestamp = str(time.time())
+    complete_file_path = 'TT_%s.jpg' % image_created_at_timestamp
 
-  self.call_snap(complete_file_path)
-  time.sleep(10)
+    self.call_snap(complete_file_path)
+    time.sleep(10)
 
-  response = self.s3_client.upload(complete_file_path)
+    response = self.s3_client.upload(complete_file_path)
 
-  device_reference = '000006'
-  image_created_at = datetime.datetime.fromtimestamp(image_created_at_timestamp).strftime('%Y-%m-%d %H:%M:%S')
-  self.trashtech_client.create_status(device_reference, response.e_tag, complete_file_path)
+    device_reference = '000006'
+    image_created_at = datetime.datetime.fromtimestamp(image_created_at_timestamp).strftime('%Y-%m-%d %H:%M:%S')
+    self.trashtech_client.create_status(device_reference, response.e_tag, complete_file_path)
 
 if __name__ == '__main__':
   trashtech_app = TrashtechApp()
