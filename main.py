@@ -33,8 +33,9 @@ class TrashtechApp:
 
 if __name__ == '__main__':
   trashtech_app = TrashtechApp()
-  trashtech_app.init_gsm()
-  time.sleep(5)
+  if trashtech_app.gsm_controller.is_ppp_interface_present():
+    trashtech_app.init_gsm()
+    time.sleep(5)
 
   configuration = trashtech_app.trashtech_client.configuration()
 

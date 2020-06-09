@@ -1,5 +1,6 @@
 import os
 import logging
+import ifcfg
 
 logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 
@@ -28,3 +29,10 @@ class GsmController:
     logging.info('[INFO] System command call: %s' % command)
     os.system(command)
     logging.info('[INFO] System command call done: %s' % command)
+
+  def is_ppp_interface_present(self):
+    exists = false
+    for name, interface in ifcfg.interfaces().items():
+      if interface['device'] == 'ppp0':
+        exists = true
+    return exists
