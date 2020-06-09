@@ -34,5 +34,5 @@ class GsmController:
     exists = False
     for name, interface in ifcfg.interfaces().items():
       if interface['device'] == 'ppp0':
-        exists = true
+        exists = True
     return exists
