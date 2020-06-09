@@ -35,7 +35,7 @@ class TrashtechApp:
   def run(self):
     if self.gsm_controller.is_ppp_interface_present() is not True:
       self.init_gsm()
-      time.sleep(30)
+      time.sleep(50)
 
     configuration = self.trashtech_client.configuration()
 
@@ -53,7 +53,7 @@ class TrashtechApp:
 
     self.gsm_controller.disable()
 
-    thread = threading.Timer(configuration['photo_interval']-20, trashtech_app.run)
+    thread = threading.Timer(configuration['photo_interval']-50, trashtech_app.run)
     thread.start()
 
 if __name__ == '__main__':
