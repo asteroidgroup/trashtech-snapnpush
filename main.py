@@ -49,7 +49,7 @@ class TrashtechApp:
 
     device_reference = '000006'
     image_created_at = datetime.datetime.fromtimestamp(image_created_at_timestamp).strftime('%Y-%m-%d %H:%M:%S')
-    self.trashtech_client.create_status(device_reference, response.e_tag, complete_file_path)
+    self.trashtech_client.create_status(device_reference, response.e_tag, complete_file_path, image_created_at)
 
 if __name__ == '__main__':
   trashtech_app = TrashtechApp()
