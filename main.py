@@ -51,7 +51,7 @@ class TrashtechApp:
     image_created_at = datetime.datetime.fromtimestamp(image_created_at_timestamp).strftime('%Y-%m-%d %H:%M:%S')
     self.trashtech_client.create_status(device_reference, response.e_tag, complete_file_path, image_created_at)
 
-    thread = threading.Timer(self.configuration['photo_interval'], trashtech_app.run)
+    thread = threading.Timer(self.interval(), trashtech_app.run)
     t1.start()
 
 if __name__ == '__main__':
