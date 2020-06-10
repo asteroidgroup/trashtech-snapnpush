@@ -3,7 +3,7 @@ import logging
 import boto3
 from botocore.exceptions import ClientError
 
-logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='[INFO] %(asctime)s - %(message)s', level=logging.INFO)
 
 AWS_ACCESS_KEY_ID = "AKIAJGG5DJ3XAM2NESYQ"
 AWS_SECRET_ACCESS_KEY = "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"
@@ -26,9 +26,9 @@ class S3Client:
 
     try:
       res = s3.Bucket(AWS_BUCKET_NAME).put_object(Key=file_basename, Body=data)
-      logging.info('[INFO] Image sent')
-      logging.info('[INFO] e_tag= %s' % (res.e_tag))
-      logging.info('[INFO] metadata= %s' % (res.metadata))
+      logging.info('Image sent')
+      logging.info('e_tag= %s' % (res.e_tag))
+      logging.info('metadata= %s' % (res.metadata))
 
     except ClientError as e:
       logging.error(e)

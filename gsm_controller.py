@@ -2,7 +2,7 @@ import os
 import logging
 import ifcfg
 
-logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
+logging.basicConfig(format='[INFO] %(asctime)s - %(message)s', level=logging.INFO)
 
 class GsmController:
   def enable(self):
@@ -26,9 +26,9 @@ class GsmController:
     self.call('sudo sh /home/pi/u-GSM-ppp/poweroffGSM')
 
   def call(self, command):
-    logging.info('[INFO] System command call: %s' % command)
+    logging.info('System command call: %s' % command)
     os.system(command)
-    logging.info('[INFO] System command call done: %s' % command)
+    logging.info('System command call done: %s' % command)
 
   def is_ppp_interface_present(self):
     exists = False
@@ -38,8 +38,8 @@ class GsmController:
         exists = True
 
     if exists:
-      logging.info('[INFO] ppp0 interface is present.')
+      logging.info('ppp0 interface is present.')
     else:
-      logging.info('[INFO] ppp0 interface is not present.')
+      logging.info('ppp0 interface is not present.')
 
     return exists
