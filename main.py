@@ -26,11 +26,11 @@ class TrashtechApp:
     self.snapper.set_resolution(WIDTH, HEIGHT)
     self.gsm_controller = GsmController()
 
-  def reload_configuration(self):
+  def retrive_configuration(self):
     self.configuration = self.trashtech_client.configuration()
 
   def interval(self):
-    self.configuration['interval']
+    self.configuration['photo_interval']
 
   def call_snap(self, filename):
     self.snapper.snap(filename)
@@ -42,8 +42,6 @@ class TrashtechApp:
 
   def run(self):
     self.init_gsm()
-
-    configuration = self.trashtech_client.configuration()
 
     image_created_at_timestamp = time.time()
     complete_file_path = FILE_FORMAT % image_created_at_timestamp
@@ -58,11 +56,13 @@ class TrashtechApp:
 
     self.gsm_controller.disable()
 
-    thread = threading.Timer(configuration['photo_interval'] - GSM_WARMUP_TIME, trashtech_app.run)
+    thread = threading.Timer(self.interval() - GSM_WARMUP_TIME, trashtech_app.run)
     thread.start()
 
 if __name__ == '__main__':
   logging.info("Hi. We are TRASHTECH. Let's play.")
+
   trashtech_app = TrashtechApp()
+  trashtech_app.retrive_configuration()
   trashtech_app.initialize()
   trashtech_app.run()
