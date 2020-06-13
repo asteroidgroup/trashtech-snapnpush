@@ -2,8 +2,6 @@ import os
 import logging
 import ifcfg
 
-logging.basicConfig(format='[INFO] %(asctime)s - %(message)s', level=logging.INFO)
-
 class GsmController:
   def enable(self):
     self.on()

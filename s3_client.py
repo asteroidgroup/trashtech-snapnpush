@@ -3,8 +3,6 @@ import logging
 import boto3
 from botocore.exceptions import ClientError
 
-logging.basicConfig(format='[INFO] %(asctime)s - %(message)s', level=logging.INFO)
-
 class S3Client:
   def set_credentials(self, aws_access_key, aws_secret_access_key, aws_bucket_name):
     self.aws_access_key = aws_access_key

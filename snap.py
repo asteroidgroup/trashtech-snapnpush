@@ -3,8 +3,6 @@
 import os
 import logging
 
-logging.basicConfig(format='[INFO] %(asctime)s - %(message)s', level=logging.INFO)
-
 class Snapper:
   def set_resolution(self, width, height):
     self.width = width or 640

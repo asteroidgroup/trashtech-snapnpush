@@ -9,8 +9,6 @@ from s3_client import S3Client
 from trashtech_api import TrashtechApi
 from gsm_controller import GsmController
 
-logging.basicConfig(format='[INFO] %(asctime)s - %(message)s', level=logging.INFO)
-
 DEVICE_REFERENCE = '000006'
 FILE_FORMAT = "TT_%s.jpg"
 TIMESTAMP_FORMAT = '%Y-%m-%d %H:%M:%S'
@@ -25,7 +23,7 @@ class TrashtechApp:
   def retrive_configuration(self):
     self.configuration = self.trashtech_client.configuration()
     self.snapper.set_resolution(self.configuration['photo_width'], self.configuration['photo_height'])
-    self.s3_client.set_credentials(self.configuration['aws_access_key'], self.configuration['aws_secret_access_key'], , self.configuration['aws_bucket_name'])
+    self.s3_client.set_credentials(self.configuration['aws_access_key'], self.configuration['aws_secret_access_key'], self.configuration['aws_bucket_name'])
 
   def interval(self):
     self.configuration['photo_interval']
@@ -35,12 +33,12 @@ class TrashtechApp:
 
   def init_gsm(self):
     if self.gsm_controller.is_ppp_interface_present() is not True:
-      self.init_gsm()
+      self.gsm_controller.enable()
 
   def wait_for_gsm(self):
     while self.gsm_controller.is_ppp_interface_present() is not True:
       logging.info("[INFO] Waiting for GSM..")
-      sleep(1)
+      time.sleep(2)
 
     if self.gsm_controller.is_ppp_interface_present():
       logging.info("[INFO] GSM module enabled")
@@ -75,6 +73,7 @@ class TrashtechApp:
     thread.start()
 
 if __name__ == '__main__':
+  logging.basicConfig(filename='trashtech.log', filemode='w', format='[INFO] %(asctime)s - %(message)s', level=logging.INFO)
   logging.info("Hi. We are TRASHTECH. Let's play.")
 
   trashtech_app = TrashtechApp()

@@ -4,8 +4,6 @@ import requests
 import logging
 import json
 
-logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
-
 class TrashtechApi:
   api_base = 'http://trashtech.herokuapp.com/api'
 
