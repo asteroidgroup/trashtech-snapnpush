@@ -12,9 +12,6 @@ from gsm_controller import GsmController
 logging.basicConfig(format='[INFO] %(asctime)s - %(message)s', level=logging.INFO)
 
 DEVICE_REFERENCE = '000006'
-GSM_WARMUP_TIME = 50 # 50 seconds
-WIDTH = 640
-HEIGHT = 480
 FILE_FORMAT = "TT_%s.jpg"
 TIMESTAMP_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -23,11 +20,12 @@ class TrashtechApp:
     self.trashtech_client = TrashtechApi()
     self.s3_client = S3Client()
     self.snapper = Snapper()
-    self.snapper.set_resolution(WIDTH, HEIGHT)
     self.gsm_controller = GsmController()
 
   def retrive_configuration(self):
     self.configuration = self.trashtech_client.configuration()
+    self.snapper.set_resolution(self.configuration['photo_width'], self.configuration['photo_height'])
+    self.s3_client.set_credentials(self.configuration['aws_access_key'], self.configuration['aws_secret_access_key'], , self.configuration['aws_bucket_name'])
 
   def interval(self):
     self.configuration['photo_interval']
@@ -39,6 +37,14 @@ class TrashtechApp:
     if self.gsm_controller.is_ppp_interface_present() is not True:
       self.init_gsm()
 
+  def wait_for_gsm(self):
+    while self.gsm_controller.is_ppp_interface_present() is not True:
+      logging.info("[INFO] Waiting for GSM..")
+      sleep(1)
+
+    if self.gsm_controller.is_ppp_interface_present():
+      logging.info("[INFO] GSM module enabled")
+
   def run(self):
     start_time = time.time()
 
@@ -49,12 +55,7 @@ class TrashtechApp:
 
     self.call_snap(complete_file_path)
 
-    while self.gsm_controller.is_ppp_interface_present() is not True:
-      logging.info("[INFO] Waiting for GSM..")
-      sleep(1)
-
-    if self.gsm_controller.is_ppp_interface_present():
-      logging.info("[INFO] GSM module enabled")
+    self.wait_for_gsm()
 
     response = self.s3_client.upload(complete_file_path)
 
@@ -67,7 +68,7 @@ class TrashtechApp:
     execution_time = time.time() - start_time
     logging.info("[INFO] Execution time: %s" % execution_time)
 
-    wait_iterval_time = self.interval() - GSM_WARMUP_TIME - execution_time
+    wait_iterval_time = self.interval() - execution_time
     logging.info("[INFO] Wait interval time: %s" % wait_iterval_time)
 
     thread = threading.Timer(wait_iterval_time, trashtech_app.run)
@@ -77,6 +78,8 @@ if __name__ == '__main__':
   logging.info("Hi. We are TRASHTECH. Let's play.")
 
   trashtech_app = TrashtechApp()
-  trashtech_app.retrive_configuration()
   trashtech_app.initialize()
+  trashtech_app.init_gsm()
+  trashtech_app.wait_for_gsm()
+  trashtech_app.retrive_configuration()
   trashtech_app.run()

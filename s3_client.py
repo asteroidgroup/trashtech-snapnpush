@@ -5,15 +5,14 @@ from botocore.exceptions import ClientError
 
 logging.basicConfig(format='[INFO] %(asctime)s - %(message)s', level=logging.INFO)
 
-AWS_ACCESS_KEY_ID = "AKIAJGG5DJ3XAM2NESYQ"
-AWS_SECRET_ACCESS_KEY = "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"
-AWS_BUCKET_NAME = "trashtech-images-1"
-
 class S3Client:
-  def __init__(self):
+  def set_credentials(self, aws_access_key, aws_secret_access_key, aws_bucket_name):
+    self.aws_access_key = aws_access_key
+    self.aws_secret_access_key = aws_secret_access_key
+    self.aws_bucket_name = aws_bucket_name
     self.session = boto3.Session(
-      aws_access_key_id=AWS_ACCESS_KEY_ID,
-      aws_secret_access_key=AWS_SECRET_ACCESS_KEY
+      aws_access_key_id = self.aws_access_key,
+      aws_secret_access_key = self.aws_secret_access_key
     )
 
   def upload(self, complete_file_path):
@@ -25,7 +24,7 @@ class S3Client:
     file_basename = os.path.basename(complete_file_path)
 
     try:
-      res = s3.Bucket(AWS_BUCKET_NAME).put_object(Key=file_basename, Body=data)
+      res = s3.Bucket(self.aws_bucket_name).put_object(Key=file_basename, Body=data)
       logging.info('Image sent')
       logging.info('e_tag= %s' % (res.e_tag))
       logging.info('metadata= %s' % (res.metadata))
