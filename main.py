@@ -38,16 +38,23 @@ class TrashtechApp:
   def init_gsm(self):
     if self.gsm_controller.is_ppp_interface_present() is not True:
       self.init_gsm()
-      time.sleep(GSM_WARMUP_TIME)
 
   def run(self):
+    start_time = time.time()
+
     self.init_gsm()
 
     image_created_at_timestamp = time.time()
     complete_file_path = FILE_FORMAT % image_created_at_timestamp
 
     self.call_snap(complete_file_path)
-    time.sleep(1)
+
+    while self.gsm_controller.is_ppp_interface_present() is not True:
+      logging.info("[INFO] Waiting for GSM..")
+      sleep(1)
+
+    if self.gsm_controller.is_ppp_interface_present():
+      logging.info("[INFO] GSM module enabled")
 
     response = self.s3_client.upload(complete_file_path)
 
@@ -55,8 +62,15 @@ class TrashtechApp:
     self.trashtech_client.create_status(DEVICE_REFERENCE, response.e_tag, complete_file_path, image_created_at)
 
     self.gsm_controller.disable()
+    logging.info("[INFO] GSM module disabled")
 
-    thread = threading.Timer(self.interval() - GSM_WARMUP_TIME, trashtech_app.run)
+    execution_time = time.time() - start_time
+    logging.info("[INFO] Execution time: %s" % execution_time)
+
+    wait_iterval_time = self.interval() - GSM_WARMUP_TIME - execution_time
+    logging.info("[INFO] Wait interval time: %s" % wait_iterval_time)
+
+    thread = threading.Timer(wait_iterval_time, trashtech_app.run)
     thread.start()
 
 if __name__ == '__main__':
