@@ -5,8 +5,8 @@ import logging
 
 class Snapper:
   def set_resolution(self, width, height):
-    self.width = width or 640
-    self.height = height or 480
+    self.width = width
+    self.height = height
 
   def snap(self, file_path):
     self.call(self.snap_command(file_path))
