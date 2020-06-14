@@ -5,7 +5,6 @@ import datetime
 import logging
 
 from snap import Snapper
-from s3_client import S3Client
 from trashtech_api import TrashtechApi
 from gsm_controller import GsmController
 
@@ -16,14 +15,12 @@ TIMESTAMP_FORMAT = '%Y-%m-%d %H:%M:%S'
 class TrashtechApp:
   def initialize(self):
     self.trashtech_client = TrashtechApi()
-    self.s3_client = S3Client()
     self.snapper = Snapper()
     self.gsm_controller = GsmController()
 
   def retrive_configuration(self):
     self.configuration = self.trashtech_client.configuration()
     self.snapper.set_resolution(self.configuration['photo_width'], self.configuration['photo_height'])
-    self.s3_client.set_credentials(self.configuration['aws_access_key'], self.configuration['aws_secret_access_key'], self.configuration['aws_bucket_name'])
 
   def interval(self):
     self.configuration['photo_interval']
@@ -55,10 +52,8 @@ class TrashtechApp:
 
     self.wait_for_gsm()
 
-    response = self.s3_client.upload(complete_file_path)
-
     image_created_at = datetime.datetime.fromtimestamp(image_created_at_timestamp).strftime(TIMESTAMP_FORMAT)
-    self.trashtech_client.create_status(DEVICE_REFERENCE, response.e_tag, complete_file_path, image_created_at)
+    self.trashtech_client.create_status(DEVICE_REFERENCE, complete_file_path, image_created_at)
 
     self.gsm_controller.disable()
     logging.info("[INFO] GSM module disabled")
