@@ -35,7 +35,7 @@ class TrashtechApp:
   def wait_for_gsm(self):
     while self.gsm_controller.is_ppp_interface_present() is not True:
       logging.info("[INFO] Waiting for GSM..")
-      time.sleep(5)
+      time.sleep(2)
 
     if self.gsm_controller.is_ppp_interface_present():
       logging.info("[INFO] GSM module enabled")
@@ -49,7 +49,6 @@ class TrashtechApp:
     complete_file_path = FILE_FORMAT % ('images', image_created_at_timestamp)
 
     self.call_snap(complete_file_path)
-
     self.wait_for_gsm()
 
     image_created_at = datetime.datetime.fromtimestamp(image_created_at_timestamp).strftime(TIMESTAMP_FORMAT)
@@ -61,7 +60,7 @@ class TrashtechApp:
     execution_time = time.time() - start_time
     logging.info("[INFO] Execution time: %s" % execution_time)
 
-    wait_iterval_time = self.interval() - execution_time
+    wait_iterval_time = Float(self.interval()) - execution_time
     logging.info("[INFO] Wait interval time: %s" % wait_iterval_time)
 
     thread = threading.Timer(wait_iterval_time, trashtech_app.run)
