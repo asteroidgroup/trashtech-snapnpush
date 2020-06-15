@@ -23,7 +23,7 @@ class TrashtechApp:
     self.snapper.set_resolution(self.configuration['photo_width'], self.configuration['photo_height'])
 
   def interval(self):
-    self.configuration['photo_interval']
+    return self.configuration['photo_interval']
 
   def call_snap(self, filename):
     self.snapper.snap(filename)
