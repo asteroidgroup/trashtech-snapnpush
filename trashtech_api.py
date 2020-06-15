@@ -3,6 +3,7 @@
 import requests
 import logging
 import json
+import base64
 
 class TrashtechApi:
   api_base = 'http://trashtech.herokuapp.com/api'
@@ -17,17 +18,19 @@ class TrashtechApi:
 
     return json
 
-  def create_status(self, device_reference, e_tag, image_name, image_created_at):
+  def create_status(self, device_reference, complete_file_path, image_created_at):
+    with open(complete_file_path, "rb") as image_file:
+      encoded_image = base64.b64encode(image_file.read())
+
     request_json = {
       "device_status": {
-        "image_name": image_name,
         "image_created_at": image_created_at,
-        "image_e_tag": e_tag,
-        "image_size": "",
+        "image_base": "data:image/jpg;base64,%s" % encoded_image,
         "device_reference": device_reference,
         "container_identifier_number": device_reference,
       }
     }
+
     logging.info("[INFO] request json: %s", request_json)
     url = "%s/device_statuses/" % (self.api_base)
     logging.info("[INFO] request call: %s", url)
