@@ -40,6 +40,8 @@ class TrashtechApp:
     if self.gsm_controller.is_ppp_interface_present():
       logging.info("[INFO] GSM module enabled")
 
+    time.sleep(5)
+
   def run(self):
     start_time = time.time()
 
