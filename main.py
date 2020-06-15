@@ -69,8 +69,6 @@ class TrashtechApp:
 
 if __name__ == '__main__':
   logging.basicConfig(
-    filename='logs/trashtech_app_%s.log' % (datetime.datetime.today().strftime("%m-%d-%Y")),
-    filemode='w',
     format='[INFO] %(asctime)s - %(message)s',
     level=logging.INFO
   )
