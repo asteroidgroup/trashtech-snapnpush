@@ -62,7 +62,7 @@ class TrashtechApp:
     execution_time = time.time() - start_time
     logging.info("[INFO] Execution time: %s" % execution_time)
 
-    wait_iterval_time = float(self.interval()) - execution_time
+    wait_iterval_time = int(float(self.interval()) - execution_time)
     logging.info("[INFO] Wait interval time: %s" % wait_iterval_time)
 
     thread = threading.Timer(wait_iterval_time, trashtech_app.run)
