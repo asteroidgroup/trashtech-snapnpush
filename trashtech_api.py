@@ -21,7 +21,6 @@ class TrashtechApi:
   def create_status(self, device_reference, complete_file_path, image_created_at):
     with open(complete_file_path, "rb") as image_file:
       encoded_image = base64.b64encode(image_file.read())
-      image_file.close()
 
     request_json = {
       "device_status": {
