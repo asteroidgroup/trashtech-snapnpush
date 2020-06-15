@@ -31,7 +31,7 @@ class TrashtechApi:
       }
     }
 
-    logging.info("[INFO] request json: %s", request_json)
+    # logging.info("[INFO] request json: %s", request_json)
     url = "%s/device_statuses/" % (self.api_base)
     logging.info("[INFO] request call: %s", url)
 
