@@ -1,0 +1,5 @@
+Crate file with unit tests cases:
+-file name should follow this convention test_*.py
+
+
+python -m pytest tests/ - run this command to run all tests from tests directory

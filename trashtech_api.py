@@ -8,7 +8,7 @@ import base64
 class TrashtechApi:
   api_base = 'http://trashtech.herokuapp.com/api'
 
-  def configuration(self):
+  def GetConfiguration(self):
     url = "%s/device_configurations/1" % self.api_base
     logging.info('[INFO] request call: %s' % url)
 
