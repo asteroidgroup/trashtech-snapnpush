@@ -48,7 +48,7 @@ class TrashtechApp:
     self.init_gsm()
 
     image_created_at_timestamp = time.time()
-    complete_file_path = FILE_FORMAT % ('images', image_created_at_timestamp)
+    complete_file_path = FILE_FORMAT % ('/home/pi/trashtech-snapnpush/images', image_created_at_timestamp)
 
     self.call_snap(complete_file_path)
     self.wait_for_gsm()
